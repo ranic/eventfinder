@@ -16,7 +16,7 @@ from django.db import models
 from events.models import GeoLocUser
 
 FROM_EMAIL = "eventfinder.cmu@gmail.com"
-my_domain = "ec2-54-191-107-23.us-west-2.compute.amazonaws.com"
+my_domain = "http://ec2-54-191-66-93.us-west-2.compute.amazonaws.com"
 
 @transaction.commit_on_success
 def signin(request):
