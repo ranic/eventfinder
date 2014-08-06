@@ -59,6 +59,7 @@ def register(request):
     context = {}
     errors = []
     context['errors'] = errors
+    print "Context['errors'] = ", context['errors']
     context['login_form'] = LoginForm()
 
 
@@ -96,16 +97,16 @@ def register(request):
 
 @transaction.commit_on_success
 def confirm_registration(request, username, token):
-	auth_user = get_object_or_404(User, username=username)
+    auth_user = get_object_or_404(User, username=username)
 
-	# Send 404 error if token is invalid
-	if not default_token_generator.check_token(auth_user, token):
-		raise Http404("Invalid authentication token. Please check your email again.")
+    # Send 404 error if token is invalid
+    if not default_token_generator.check_token(auth_user, token):
+        raise Http404("Invalid authentication token. Please check your email again.")
 
-	# Otherwise token was valid, activate the user.
-	auth_user.is_active = True
-	auth_user.save()
-	return redirect(settings.LOGIN_REDIRECT_URL)
+    # Otherwise token was valid, activate the user.
+    auth_user.is_active = True
+    auth_user.save()
+    return redirect(settings.LOGIN_REDIRECT_URL)
 
 def custom_register(request):
     if request.user.is_authenticated():
@@ -136,15 +137,16 @@ def reset(request):
     user = get_object_or_404(User, username=context['username'])
     user.set_password(new_password)
     user.save()
+
     #Gives user a new password and sends it in a message to their email
-    email_body = """
-        Here is your new temporary password: %s. Be sure to change it once you login by clicking your name, then 'Change Password'.""" % new_password
+    email_body = """Here is your new temporary password: %s. Be sure to change it once you login by clicking your name, then 'Change Password'.""" % new_password
     send_mail(subject="Password reset.",
               message=email_body,
               from_email=FROM_EMAIL,
               recipient_list=[context['username']])
-    return redirect('/authenticate/index.html')
-
+    
+    context['errors'] = ['Your new temporary password has been sent to %s.' % context['username']]
+    return render(request, 'authenticate/reset.html',context)
 
 def change_password(request):
     context = {}
@@ -163,4 +165,5 @@ def change_password(request):
     else:
         request.user.set_password(form.cleaned_data['password'])
         request.user.save()
+        context['errors'] = ['Password was successfully changed']
         return render(request, 'authenticate/change_password.html', context)
