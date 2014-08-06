@@ -84,8 +84,8 @@ def register(request):
     new_user = GeoLocUser(user=new_user_auth)
     new_user.save()
     tok = default_token_generator.make_token(new_user.user)
-    email_body = ("Welcome to EventFinder! Please verify your account by clicking this link. This will redirect you to"
-                   "our login page, where you can login with your username and password:"
+    email_body = ("Welcome to EventFinder! Please verify your account by clicking this link. This will redirect you to "
+                   "our login page, where you can login with your username and password: "
                    "%s/%s/%s/%s" % (my_domain, 'authenticate/confirm-registration', new_user_auth.username, tok))
     send_mail(subject="Verify your EventFinder Account",
               message=email_body,
