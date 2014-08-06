@@ -1,0 +1,46 @@
+body {
+  background-image:url('/static/images/login-background.jpg');
+  background-position: 0px -150px;
+}
+
+p,label {
+  color:white;
+}
+
+.confirmation {
+  color: white;
+}
+
+.form-signin-heading {
+  color: #e8a317;
+}
+
+#login-page-forms {
+	position:relative;
+	top:50px;
+}
+
+#reg-form {
+	margin-right:30px;
+}
+
+#reg-button {
+	position:relative; 
+	top:10px;
+}
+
+a:link{
+  color:blue;
+}
+a:visited{
+  color:purple;
+}
+a:hover{
+  color:orange;
+}
+a:focus{
+  color:green;
+}
+a:active{
+  color:red;
+}

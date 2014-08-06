@@ -1,0 +1,18 @@
+{% extends "events/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div>
+        {% if form.picture.value %}
+        <img src="{% url 'event_photo' event.id %}" alt="{{event.host.geolocuser.name}}" class="text" width="104" height="104">
+        {% endif %}
+      </div>
+    <form enctype='multipart/form-data' action="{% url 'edit' event.id %}" method="post">{% csrf_token %}
+      {{form}}
+    <br>
+    {% for error in form.errors %}
+    <p>{{error}}</p>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

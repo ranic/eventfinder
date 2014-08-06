@@ -1,0 +1,60 @@
+#target {
+      width: 345px;
+}
+
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+
+.mapform{
+  width: 400px;
+  height: 400px;
+}
+
+.verticalLine {
+    border-left: thick solid #000000;
+}
+
+body {
+  padding-bottom: 40px;
+  background-image:url('/static/images/dashboard-background.jpg');
+  background-size:1280px 800px;
+}
+
+  p, li, th{
+    color: white;
+  }
+
+  h1, h2, h3, h4, h5 {
+    color: #e8a317;
+  }
+
+
+hr.thin {
+  height: 1px;
+  border: 0;
+  color: #aaa;
+  background-color: #aaa;
+} 
+.event-text {
+  font-size: 20px;
+}
+
+.feedtext {
+  color: white;
+}
+.sac{
+  color: white;
+}

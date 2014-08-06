@@ -1,0 +1,17 @@
+{% extends 'authenticate/base_login.html' %}
+{% block content %}
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <a class="brand" href="{% url 'register'}">EventFinder</a>
+      </div>
+    </div>
+    <div class="container">
+        <h2 class="confirmation">A confirmation email has been sent to <span style="color: #e8a317">{{user.user.username}}</span>. Click the link in the email and proceed to login with your username and password.</h2>
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="getbootstrap.com/assets/js/jquery.js"></script>
+    <script src="getbootstrap.com/dist/js/bootstrap.min.js"></script>
+{% endblock %}

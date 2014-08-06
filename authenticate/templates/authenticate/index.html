@@ -1,0 +1,61 @@
+{% extends 'authenticate/base_login.html' %}
+{% block content %}
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <a class="brand" href="{% url 'register' %}">EventFinder</a>
+      </div>
+    </div>
+    <div class="container">
+      <div id="login-page-forms" class="row">
+        <div class="span3"></div>
+        <div class="span3" id="reg-form">
+          <form class="form-horizontal" role="form" action="{% url 'register' %}" method="post">
+            <h2 class="form-signin-heading">Register</h2>
+            {% for field in reg_form.visible_fields %}
+            <div class="form-group">
+              <h5>{{field.label_tag}}</h5>
+              <div class="col-lg-10">
+                {{field}}
+              </div>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+              <div id="reg-button" class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-primary">Register</button>
+              </div>
+            </div>
+            {% csrf_token %}
+          </form>
+          {% for error in reg_form.non_field_errors %}
+          <p style="color:red">{{error}}</p>
+          {% endfor %}
+        </div>
+        <div class="span3" id="login-form">
+          <form class="form-horizontal" role="form" action="{% url 'signin' %}" method="post">
+            <h2 class="form-signin-heading">Sign in</h2>
+            {% for field in login_form.visible_fields %}
+            <div class="form-group">
+              <h5>{{field.label_tag}}</h5>
+              <div class="col-lg-10">
+                {{field}}
+              </div>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+              <div id="reg-button" class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+                <a href="/authenticate/reset.html"> Reset password </p>
+              </div>
+            </div>
+            {% csrf_token %}
+          </form>
+          {% for error in login_form.non_field_errors %}
+          <p style="color:red">{{error}}</p>
+          {% endfor %}
+          {% for error in errors %}
+          <p style="color:red">{{error}}</p>
+          {% endfor %}
+        </div>
+    </div>
+    </div><!-- /.container -->
+{% endblock %}

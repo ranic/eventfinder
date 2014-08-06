@@ -1,0 +1,31 @@
+{% extends 'events/base.html' %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+
+{% if dummy %}
+{% else %}
+{% if user.geolocuser == event.host %}
+<a href="{% url 'edit' event.id %}"><p > Edit Event <p></a>
+{% else %}
+    {% if leave %}
+    <a href="{% url 'leaveEvent' event.id %}"><p> Leave Event <p></a>
+    {% else %}
+    <a href="{% url 'joinEvent' event.id %}"><p> Join Event <p></a>
+    {% endif %}
+{% endif %}
+{% endif %}
+
+{% block event_content %}
+{% endblock %}
+{% if leave and event_is_active and not dummy %}
+    <form class="testimonial-form" action="{% url 'testimonial' event.id %}" enctype='multipart/form-data' method="post">
+      <p>Write a testimonial:</p> <input type="textarea" name="text">
+       <br/>
+      <input type="file" name="image">
+      <br/>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      {% csrf_token %}
+    </form>
+{% endif %}
+{% endblock %}

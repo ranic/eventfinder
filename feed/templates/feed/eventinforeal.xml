@@ -1,0 +1,43 @@
+<allevents>
+		{% for e,d in feed %}
+			<feed>
+
+			<name>{{e.name}}</name>
+			<description>{{e.description}}</description>
+			<host>{{e.host}}</host>
+			{% for g in e.guests.all %}
+				<guest>{{g.user.first_name}}</guest>
+			{% endfor %}
+			<start>{{e.start}}</start>
+			<end>{{e.end}}</end>
+			<longitude>{{e.location.longitude}}</longitude>
+			<latitude>{{e.location.latitude}}</latitude>
+			<picture>{{e.picture}}</picture>
+			{% for t in e.tags.all %}
+				<tag>{{t}}</tag>
+			{% endfor %}
+		</feed>
+		{% endfor %}
+</allevents>
+	<currentEvents>
+		{% for (e,distance) in feed %}
+			<name>{{e.name}}</name>
+			<description>{{e.description}}</description>
+			<host></host>
+			{% for g in e.guests.all %}
+				<guest>{{g.user.first_name}}</guest>
+			{% endfor %}
+			<start>{{e.start}}</start>
+			<end>{{e.end}}</end>
+			<longitude>{{e.location.longitude}}</longitude>
+			<latitude>{{e.location.latitude}}</latitude>
+			<picture>{{e.picture}}</picture>
+			{% for t in e.tags.all %}
+				<tag>{{t}}</tag>
+			{% endfor %}
+		{% endfor %}
+
+	</currentEvents>
+	<test>test</test>
+</allevents>
+

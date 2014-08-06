@@ -1,0 +1,7 @@
+#target {
+      width: 345px;
+}
+
+.verticalLine {
+    border-left: thick solid #000000;
+}

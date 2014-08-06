@@ -1,0 +1,149 @@
+{% extends 'events/base.html' %}
+
+{% block css %}
+<link href="/static/css/docs.css" rel="stylesheet"/>
+<link href="/static/css/custom.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="page-header">
+	  <h1>EventFinder API<small>&nbsp;Customize your events in style</small></h1>
+	</div>
+	<!--div class="btn-group">
+	  <a href="#about"><button type="button" class="btn btn-default">About</button></a>
+	  <a href="#provided"><button type="button" class="btn btn-default">Provided</button></a>
+	  <a href="#models"><button type="button" class="btn btn-default">Models</button></a>
+	  <a href="#context"><button type="button" class="btn btn-default">Context</button></a>
+	  <a href="#start"><button type="button" class="btn btn-default">Get Started</button></a>
+	</div-->
+	<h3 id="about"> About </h3>
+	<p> Welcome! The EventFinder API is designed to allow events hosts to customize the view of their event page. Developers may <a href="#start">submit a plugin</a> in the form of a HTML file in the main (feed) page. This HTML plugin will then be verified and if successful, will be rendered as a Django template. If it is not succesful, you will be directed to an error page that will give you a helpful error message about your plugin. You may then redesign the plugin and re-upload it. Please read the Django Templating Documentation if this is your first time working with Django templates. If you are a first-time developer for our API, please read this documentation so you may minimize errors and get your custom event page functional as fast as possible!
+	</p>
+	<h3 id="provided"> Provided </h3>
+	<p> We provide a base HTML template that your template <em>must</em> extend. The first line of your template <em>must</em> be:</p>
+		{% verbatim %}
+		<pre class="prettyprint">{% extends 'events/base_event.html' %}</pre>
+		{% endverbatim %}
+	<p> This base template allows two blocks for extension: a block to add page-wide style information to the page header and a block in which to include your page's main content. These two blocks are named <i>css</i> and <i>event_content</i>. Thus, your overall page should follow this format: </p>
+	<pre class="prettyprint">
+	{% verbatim %}
+{% extends 'events/base_event.html' %}
+{% block css %}
+
+<i> -- Style here -- </i>
+
+{% endblock %}
+
+{% block event_content %}
+
+<i> -- Event HTML here -- </i>
+
+{% endblock %} {% endverbatim %}
+	</pre>
+	<h3 id="models">Models</h3>
+	<p> To understand how to use the data passed in from EventFinder in your custom template, you must first understand how the various models are laid out.</p>
+	<ul>
+		<li><h4 id="geolocuser">GeoLocUser<small>&nbsp;The EventFinder user.</small></h4>
+			<ul>
+		  		<li><p>user: the <a href="https://docs.djangoproject.com/en/dev/topics/auth/default/#user-objects">Django Auth User</a> object linked to this GeoLocUser</p>
+		  			<ul>
+		  				<li><p> first_name: Access the full name of the user </p></li>
+		  			</ul>
+		  		</li>
+  				<li><p>events: list of <a href="#event">Event</a> models of events the user is attending</p></li>
+  				<li><p>hosted_events: list of <a href="#event">Event</a> models of events the user is hosting</p></li>
+  				<li><p>testimonials: list of <a href="#testimonial">Testimonials</a> that the user has written</p></li>
+			</ul>
+		</li>
+		<li><h4 id="event">Event<small>&nbsp; An EventFinder event.</small></h4>
+			<ul>
+				<li><p>name: then name of the Event</p></li>
+				<li><p>description: Event description</p></li>
+				<li><p>start: a Django datetime representing the Event start. Time is always 12:00:00 AM.</p></li>
+				<li><p>end: a Django datetime representing the Event end. Time is always 11:59:59 PM.</p></li>
+				<li><p>location: <a href="#location">Location</a> of the Event.</p></li>
+				<li><p>host: The <a href="#geolocuser">GeoLocUser</a> that is hosting this Event.</p></li>
+				<li><p>guests: List of <a href="#geolocuser">GeoLocUsers</a> attending this Event.</p></li>
+				<li><p>tags: List of <a href="#tag">Tags</a> of this Event.</p></li>
+				<li><p>testimonials: List of <a href="#testimonial">Testimonials</a> written about this Event.</p>
+					<ul>
+						<li> To iterate through plural fields (e.g. guests, tags, testimonials) make sure use the 'all' field in the iterable. For example,
+	{% verbatim %}
+		<pre class="prettyprint">
+{% for testimonial in event.testimonials.all %}
+<i> -- Use testimonial -- </i>
+{% endfor %}
+</pre>
+{% endverbatim %}
+</li>
+</ul>
+</li>
+				<li><p>picture: Image associated with the event. Note: not all Events have images. Must use as follows: </p>
+				{% verbatim %}
+		<pre class="prettyprint">
+{% if event.picture %}
+ 	&lt;img src=&quot;{% url &#39;event_photo&#39; event.id %}&quot;&gt;
+{% else %}
+<i> -- Don't attempt to use picture here -- </i>
+{% endif %}
+</pre>
+{% endverbatim %}
+				</li>
+			</ul>
+		</li>
+		<li><h4 id="location">Location<small>&nbsp; An EventFinder location.</small></h4>
+			<ul>
+				<li><p>latitude: A floating point representation of the latitude.</p></li>
+				<li><p>longitude: A floating point representation of the longitude.</p></li>
+			</ul>
+		</li>
+		<li><h4 id="tag">Tag<small>&nbsp; A tag that qualifies an Event.</small></h4>
+			<ul>
+				<li><p>text: The text of the tag</p></li>
+				<li><p>events: Other <a href="#event">Events</a> that are also tagged with this Tag.</p></li>
+			</ul>
+		</li>
+		<li><h4 id="testimonial">Testimonial<small>&nbsp; A testimonial written about an Event.</small></h4>
+			<ul>
+				<li><p>text: The text of the testimonial.</p></li>
+				<li><p>user: The <a href="#geolocuser">GeoLocUser</a> that posted the testimonial.</p></li>
+				<li><p>image: The image with the testimonial. Must use as follows:</p>
+				{% verbatim %}
+		<pre class="prettyprint">
+{% if testimonial.image %}
+ 	&lt;img src=&quot;{% url &#39;testimonial_photo&#39; testimonial.id %}&quot;&gt;
+{% else %}
+<i> -- Don't attempt to use image here -- </i>
+{% endif %}
+</pre>
+{% endverbatim %}
+</pre>
+</li>
+
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<h3 id="context">Context</h3>
+		<p> These are the variables that you can access using Django template tags. </p>
+		<ul>
+		  <li><h4>user<small>&nbsp;The user that is currently logged in.</small></h4>
+		  	<ul>
+		  		<li><p>geolocuser: Access the GeoLocUser corresponding to this user</p></li>
+		  		<li><p>username: the user's unique email username</p></li>
+		  	</ul>
+		  </li>
+		  <li><h4>event<small>&nbsp;The event that this page is displaying.</small></h4></li>
+		</ul>
+	<h3 id="start">Submit a Plugin</h3>
+	<p> Want to get started? Here is a <a href="/static/sample.html" download="sample.html" target="_blank">sample template</a> to build off of. </p>
+	<h5> Upload your custom event template</h5>
+            <form enctype="multipart/form-data" method="post" action="/events/upload_plugin">
+                <p>Template name:</p> <input name="name" type="text">
+                <p><input name="template" type="file"></p>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                {% csrf_token %}
+            </form>
+</div>
+{% endblock %}

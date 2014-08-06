@@ -1,0 +1,85 @@
+{% extends 'events/base_event.html' %}
+{% block css %}
+   <link href="/static/css/bootstrap.css" rel="stylesheet">
+   <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block event_content %}
+     <div class="row-fluid">
+       <div class="span6">
+           <center><h2>{{event.name}}</h2></center>
+       <div class="map">
+          {% if event.picture %}
+          <center><img src="{% url 'event_photo' event.id %}" alt="..." class="img-rounded"></center>
+          {% else %}
+          <!-- Easy to use placeholder url -->
+          <center><img src="http://placehold.it/400x400" alt="..." class="img-rounded"></center>
+          {% endif %}
+       </div>
+           <table class="table table-striped"> 
+                <thead>
+                    <tr>
+                        <th><h3> Time </h3></th> 
+                        <th><h3> Description of Event </h3></th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> <h4> {{event.start}} </h4></th> 
+                        <th> <h4> {{event.description}} </h4></th>
+                    </tr> 
+                  </tbody>
+                </table>
+<!-- Embedded google map centered at event location -->
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps?t=m&amp;q={{event.location.latitude}},+{{event.location.longitude}}&amp;ie=UTF8&amp;z=9&amp;ll={{event.location.latitude}},{{event.location.longitude}}&amp;output=embed"></iframe><br /><small><a href="https://www.google.com/maps?t=m&amp;q={{event.location.latitude}},+{{event.location.longitude}}&amp;ie=UTF8&amp;z=9&amp;source=embed" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+      </div>
+      <div class="span5">
+          <table class="table table-striped"> 
+                <thead>
+                    <tr>
+                      <th><h3> Host </h3></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <th></th>
+                      <th><h2> {{event.host.user.first_name}} </h2></th>
+                    </tr> 
+                </tbody>
+          </table>
+                 <table class="table table-striped"> 
+                <thead>
+                    <tr>
+                        <th><h3> Guests </h3></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for guest in event.guests.all %}
+                    <tr>
+                        <th><h4> {{guest.user.first_name}} </h4></th>
+                    </tr> 
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="span12">
+                    <h2> Testimonials </h2>
+                    {% for testimonial in event.testimonials.all %}
+                      {% if testimonial.image %}
+                      <img src="{% url 'testimonial_photo' testimonial.id %}" height="30" width="30">
+                      {% else %}
+                      <img src="http://placehold.it/30x30">
+                      {% endif %}
+                    <p>{{testimonial.text}}</p>
+
+                    {% endfor %}
+              </div>
+  </div>
+
+{% endblock %}
+
+ 
+
+
+

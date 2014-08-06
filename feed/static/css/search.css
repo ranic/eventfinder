@@ -1,0 +1,42 @@
+.feed-header {
+	text-indent: 25%;
+}
+
+.event-photo { 
+  padding: 20px 0 0 15px; 
+} 
+.event-photo a img {
+-webkit-transition: -webkit-transform .15s linear;
+}
+
+.event-photo a img:hover {
+  -webkit-transform: rotate(-2deg) scale(1.15);
+  -moz-transform: rotate(-2deg) scale(1.15);
+  position: relative;
+  z-index: 5;
+}
+
+.event-text {
+  margin-bottom: 0;
+  padding: 5px 5px 5px 0;
+  margin-top: 8px;
+}
+
+.event-text {
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #666;
+}
+
+.event-text a:hover {
+  color: #07C;
+  text-decoration: underline;
+}
+
+.description {
+  color: white;
+}
+
+.user {
+  color: #e8a317;
+}

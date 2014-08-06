@@ -1,0 +1,42 @@
+{% extends 'events/base.html' %}
+{% block css %}
+<style>
+label {color: white;}
+</style>
+   <link href="/static/css/custom.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1> Create an event </h1>
+    <div class="row-fluid">
+<div class="span6">
+    <form enctype='multipart/form-data' class ="createForm" method="post">{% csrf_token %}
+    	<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" maxlength="50" name="name" type="text" /></td></tr>
+        <tr><th><label for="id_description">Description:</label></th><td><input id="id_description" maxlength="300" size="300" name="description" type="text"/></td></tr>
+        <tr><th><label for="id_tags">Tags:</label></th><td><input id="id_tags" maxlength="300" placeholder="Space separated tags" name="tags" type="text" /></td></tr>
+        <tr><th><label for="id_start">Start:</label></th><td><input id="id_start" name="start" type="datetime-local" /></td></tr>
+        <tr><th><label for="id_end">End:</label></th><td><input id="id_end" name="end" type="datetime-local"/></td></tr>
+        <tr><th><label for="id_plugin">Plugin:</label></th><td><select id="plugin" name="plugin">
+        {% for plugin in plugins %}
+            <option value="{{plugin.name}}">{{plugin.name}}</option>
+        {% endfor %}
+    </select>
+        </td></tr>
+    <br>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% for error in errors %}
+<p style="color: red"> {{error}} </p>
+{% endfor %}
+</div>
+<div class="span6">
+    <div class="mapform">
+        <div >
+          <input id="target" type="text" placeholder="Find a location for your event">
+        </div>
+        <div id="map-canvas"></div>
+    </div>
+</div>
+    </div>
+  </div>
+{% endblock content %}

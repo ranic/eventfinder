@@ -1,0 +1,35 @@
+{% extends 'events/base.html' %}
+{% block css %}
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <link href="/static/css/search.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+{% block main_content %}
+                <center><h3>Results for "{{query}}" </h3></center>
+                {% for event in events %}
+                <div id="event-{{event.id}}" class="post-entry">
+                  <div class="row-fluid">
+                    <div class="span4 ">
+                    <div class="event-photo">
+                        <a href="/events/eventpage{{event.id}}" title="View event">
+                          {% if event.picture %}
+                          <img src="{% url 'event_photo' event.id %}" height="104" width="104">
+                          {% else %}
+                          <img src="http://placehold.it/104x104" height="104" width="104">
+                          {% endif %}                        
+                          </a>
+                      </div>
+                      </div>
+                      <div class="span8">
+                          <div class="event-text">
+                            <a href="/events/eventpage{{event.id}}">{{event.name}}</a></div>
+                            <p class="description">{{event.description}}</p>
+                            <p>{{event.start}} -- </p>
+                            <p>{{event.end}}</p>
+                        </div>
+                    </div>
+                  </div>
+                  <hr class="thin"/>
+            {% endfor %}
+{% endblock %}
+{% endblock %}

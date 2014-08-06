@@ -1,0 +1,8 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<h4 style="color:red">Error: {{error}}</h4>
+<img src="http://cdn.css-tricks.com/images/404.jpg"></img>
+<h3> Ouch! Looks like your plugin has an error. Please review our <a href="{% url 'apidocs' %}">API Documentation</a> and modify your plugin as necessary. Happy developing! </h3>
+
+{% endblock %}
